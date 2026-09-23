@@ -1,13 +1,30 @@
 import { useMemo, useState } from 'react'
 import './App.css'
 import {
+  dessertDrinkItems,
   mainCategories,
   nigiriGroups,
+  noodleSoupItems,
+  sideDishItems,
   type MainCategoryId,
   type MenuItem,
 } from './menuData'
 
-const usd = (amount: number) => `$${amount.toFixed(2)}`
+const baht = (amount: number) => `฿${amount.toLocaleString('th-TH')}`
+
+const pickRandomItemIds = (items: MenuItem[], count: number) => {
+  const shuffled = [...items]
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1))
+    ;[shuffled[index], shuffled[randomIndex]] = [
+      shuffled[randomIndex],
+      shuffled[index],
+    ]
+  }
+
+  return shuffled.slice(0, count).map((item) => item.id)
+}
 
 function CartIcon() {
   return (
@@ -28,11 +45,36 @@ function App() {
     nigiriGroups.find((group) => group.id === activeGroup) ?? nigiriGroups[0]
 
   const allItems = useMemo(
-    () =>
-      nigiriGroups.flatMap((group) =>
-        group.items.map((item) => ({ ...item, image: group.image })),
+    () => [
+      ...nigiriGroups.flatMap((group) =>
+        group.items.map((item) => ({
+          ...item,
+          image: item.image ?? group.image,
+        })),
       ),
+      ...noodleSoupItems,
+      ...sideDishItems,
+      ...dessertDrinkItems,
+    ],
     [],
+  )
+  const [topItemIds, setTopItemIds] = useState(() =>
+    pickRandomItemIds(allItems, 3),
+  )
+  const [todayItemIds, setTodayItemIds] = useState(() =>
+    pickRandomItemIds(allItems, 4),
+  )
+  const topItems = topItemIds
+    .map((id) => allItems.find((item) => item.id === id))
+    .filter((item): item is MenuItem & { image: string } => Boolean(item))
+  const todayItems = todayItemIds
+    .map((id) => allItems.find((item) => item.id === id))
+    .filter((item): item is MenuItem & { image: string } => Boolean(item))
+  const seasonalItems = allItems.filter(
+    (item) => item.english === 'Jumbo Scallop',
+  )
+  const shrimpAndRollItems = allItems.filter((item) =>
+    /shrimp|roll/i.test(item.english),
   )
 
   const selectedItems = allItems.filter((item) => quantities[item.id] > 0)
@@ -55,6 +97,8 @@ function App() {
   const changeMainCategory = (id: MainCategoryId) => {
     setActiveMain(id)
     if (id === 'nigiri') setActiveGroup(nigiriGroups[0].id)
+    if (id === 'top') setTopItemIds(pickRandomItemIds(allItems, 3))
+    if (id === 'today') setTodayItemIds(pickRandomItemIds(allItems, 4))
   }
 
   const openCart = () => {
@@ -67,12 +111,12 @@ function App() {
 
     return (
       <article className="food-card" key={item.id}>
-        <img src={currentGroup.image} alt={item.english} />
+        <img src={item.image ?? currentGroup.image} alt={item.english} />
 
         <div className="food-details">
           <h2>{item.thai}</h2>
           <p>{item.english}</p>
-          <strong>{usd(item.price)}</strong>
+          <strong>{baht(item.price)}</strong>
         </div>
 
         <div className="stepper" aria-label={`จำนวน ${item.thai}`}>
@@ -154,6 +198,115 @@ function App() {
               </div>
             </section>
           </>
+        ) : activeMain === 'top' ? (
+          <section className="menu-section top-section" aria-live="polite">
+            <div className="section-heading">
+              <div>
+                <span className="category-kicker">TOP</span>
+                <h1>เมนูยอดนิยม</h1>
+                <p>Popular Picks</p>
+              </div>
+              <span className="item-total">3 รายการ</span>
+            </div>
+
+            <div className="menu-list">{topItems.map(renderFoodCard)}</div>
+          </section>
+        ) : activeMain === 'seasonal' ? (
+          <section className="menu-section top-section" aria-live="polite">
+            <div className="section-heading">
+              <div>
+                <span className="category-kicker">SEASONAL</span>
+                <h1>เมนูแนะนำตามช่วงเวลา</h1>
+                <p>Seasonal Recommendation</p>
+              </div>
+              <span className="item-total">1 รายการ</span>
+            </div>
+
+            <div className="menu-list">
+              {seasonalItems.map(renderFoodCard)}
+            </div>
+          </section>
+        ) : activeMain === 'today' ? (
+          <section className="menu-section top-section" aria-live="polite">
+            <div className="section-heading">
+              <div>
+                <span className="category-kicker">TODAY</span>
+                <h1>เมนูแนะนำวันนี้</h1>
+                <p>Today's Recommendations</p>
+              </div>
+              <span className="item-total">4 รายการ</span>
+            </div>
+
+            <div className="menu-list">{todayItems.map(renderFoodCard)}</div>
+          </section>
+        ) : activeMain === 'roll' ? (
+          <section className="menu-section top-section" aria-live="polite">
+            <div className="section-heading">
+              <div>
+                <span className="category-kicker">SHRIMP &amp; ROLL</span>
+                <h1>กุ้ง โรล</h1>
+                <p>Shrimp &amp; Roll</p>
+              </div>
+              <span className="item-total">
+                {shrimpAndRollItems.length} รายการ
+              </span>
+            </div>
+
+            <div className="menu-list">
+              {shrimpAndRollItems.map(renderFoodCard)}
+            </div>
+          </section>
+        ) : activeMain === 'noodles' ? (
+          <section className="menu-section top-section" aria-live="polite">
+            <div className="section-heading">
+              <div>
+                <span className="category-kicker">NOODLES &amp; SOUP</span>
+                <h1>เมนูเส้น ซุป</h1>
+                <p>Noodles &amp; Soup</p>
+              </div>
+              <span className="item-total">
+                {noodleSoupItems.length} รายการ
+              </span>
+            </div>
+
+            <div className="menu-list">
+              {noodleSoupItems.map(renderFoodCard)}
+            </div>
+          </section>
+        ) : activeMain === 'sides' ? (
+          <section className="menu-section top-section" aria-live="polite">
+            <div className="section-heading">
+              <div>
+                <span className="category-kicker">SIDE DISHES</span>
+                <h1>เมนูทานเล่น</h1>
+                <p>Side Dishes</p>
+              </div>
+              <span className="item-total">
+                {sideDishItems.length} รายการ
+              </span>
+            </div>
+
+            <div className="menu-list">
+              {sideDishItems.map(renderFoodCard)}
+            </div>
+          </section>
+        ) : activeMain === 'desserts' ? (
+          <section className="menu-section top-section" aria-live="polite">
+            <div className="section-heading">
+              <div>
+                <span className="category-kicker">DESSERTS &amp; DRINKS</span>
+                <h1>ของหวาน เครื่องดื่ม</h1>
+                <p>Desserts &amp; Drinks</p>
+              </div>
+              <span className="item-total">
+                {dessertDrinkItems.length} รายการ
+              </span>
+            </div>
+
+            <div className="menu-list">
+              {dessertDrinkItems.map(renderFoodCard)}
+            </div>
+          </section>
         ) : (
           <section className="empty-category">
             <span>準備中</span>
@@ -168,7 +321,7 @@ function App() {
         <button className="sticky-cart" onClick={openCart}>
           <CartIcon />
           <span>Order {itemCount ? `· ${itemCount} items` : ''}</span>
-          <b>{usd(total)}</b>
+          <b>{baht(total)}</b>
         </button>
 
         {cartOpen && (
@@ -226,7 +379,7 @@ function App() {
                             </small>
                           </div>
                           <span>
-                            {usd(item.price * quantities[item.id])}
+                            {baht(item.price * quantities[item.id])}
                           </span>
                         </div>
                       ))}
@@ -237,7 +390,7 @@ function App() {
 
                   <div className="total">
                     <span>Total</span>
-                    <strong>{usd(total)}</strong>
+                    <strong>{baht(total)}</strong>
                   </div>
                   <button
                     className="confirm-button"

@@ -153,6 +153,10 @@
 }
 
 /* Menu heading */
+.top-section {
+  padding-top: 18px;
+}
+
 .section-heading {
   display: flex;
   align-items: flex-end;
@@ -238,7 +242,7 @@
 .food-card {
   display: grid;
   grid-template-rows: 1fr auto;
-  grid-template-columns: 92px minmax(0, 1fr);
+  grid-template-columns: 130px minmax(0, 1fr);
   min-height: 115px;
   padding: 10px;
   column-gap: 13px;
@@ -250,7 +254,7 @@
 
 .food-card img {
   grid-row: 1 / -1;
-  width: 92px;
+  width: 120px;
   height: 92px;
   border-radius: 11px;
   object-fit: cover;
@@ -520,8 +524,4 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-@media (min-width: 391px) {
-  .phone {
-    min-height: 844px;
-  }
-}
+
