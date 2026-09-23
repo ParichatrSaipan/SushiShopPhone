@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { findTaskSet, type SetId, type TaskNo } from './taskSets'
 
 export interface ResearchRecord {
@@ -13,6 +13,8 @@ export interface ResearchRecord {
   /** ระบบสั่งอาหารแบบเลือกอิสระ ไม่มี "ช่องว่าง" ตายตัวแบบกระดาษ จึงตรวจจับ Wrong Item อัตโนมัติไม่ได้ เก็บไว้เป็น 0 เสมอเพื่อให้ schema ครบ */
   wrongItem: number
   totalError: number
+  /** นับทุกครั้งที่กดเพิ่มรายการนอกชุดโจทย์ หรือเพิ่มเกินจำนวนที่โจทย์กำหนด ระหว่างจับเวลา (สะสม ไม่ลดแม้ลบออกจากตะกร้า) — ต่างจาก ExtraItem ที่นับตอนสั่งอาหารจากตะกร้าสุดท้าย */
+  clickErrors: number
   success: 0 | 1
   at: string
 }
@@ -72,12 +74,14 @@ export function useResearchLog() {
   const [trialRunning, setTrialRunning] = useState(false)
   const [startedAt, setStartedAt] = useState<number | null>(null)
   const [log, setLog] = useState<ResearchRecord[]>(() => loadLog())
+  const clickErrorCount = useRef(0)
 
   useEffect(() => {
     saveLog(log)
   }, [log])
 
   const startTrial = useCallback(() => {
+    clickErrorCount.current = 0
     if (trialRunning) {
       setTrialRunning(false)
       setStartedAt(null)
@@ -86,6 +90,16 @@ export function useResearchLog() {
     setTrialRunning(true)
     setStartedAt(Date.now())
   }, [trialRunning])
+
+  /** Counts an add-tap as an error if the item is off-task or pushes its qty above the task's target qty. */
+  const recordAddClick = useCallback(
+    (itemId: string, newQty: number) => {
+      if (!enabled || !trialRunning) return
+      const line = findTaskSet(task, set)?.lines.find((l) => l.itemId === itemId)
+      if (!line || newQty > line.qty) clickErrorCount.current += 1
+    },
+    [enabled, trialRunning, task, set],
+  )
 
   /**
    * เรียกตอนกด "Confirm Order" — คืนค่า record ที่บันทึกถ้าอยู่ใน trial ที่กำลังจับเวลาอยู่
@@ -110,10 +124,12 @@ export function useResearchLog() {
         wrongQty,
         wrongItem: 0,
         totalError,
+        clickErrors: clickErrorCount.current,
         success: totalError === 0 ? 1 : 0,
         at: new Date().toISOString(),
       }
 
+      clickErrorCount.current = 0
       setLog((prev) => [...prev, record])
       setTrialRunning(false)
       setStartedAt(null)
@@ -138,11 +154,12 @@ export function useResearchLog() {
       'WrongQuantity',
       'WrongItem',
       'TotalError',
+      'ClickErrors',
       'Success',
       'Timestamp',
     ]
     const rows = log.map((r) =>
-      [r.participantId, r.method, r.task, r.set, r.timeSec, r.missing, r.extra, r.wrongQty, r.wrongItem, r.totalError, r.success, r.at]
+      [r.participantId, r.method, r.task, r.set, r.timeSec, r.missing, r.extra, r.wrongQty, r.wrongItem, r.totalError, r.clickErrors ?? 0, r.success, r.at]
         .map((v) => `"${String(v).replace(/"/g, '""')}"`)
         .join(','),
     )
@@ -169,6 +186,7 @@ export function useResearchLog() {
     setSet,
     trialRunning,
     startTrial,
+    recordAddClick,
     recordResult,
     log,
     clearLog,
