@@ -11,7 +11,7 @@
   margin: auto;
   padding: 22px 16px 112px;
   background: #fffdfa;
-  box-shadow: 0 0 35px #16351b16;
+  box-shadow: 0 0 35px #59121a16;
 }
 
 /* Header */
@@ -24,9 +24,9 @@
 
 .brand {
   margin: 0;
-  color: #143b2a;
+  color: #59121a;
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: 0.08em;
 }
 
@@ -46,7 +46,7 @@
   border: 1px solid #e6e8e1;
   border-radius: 50%;
   background: #fff;
-  color: #143b2a;
+  color: #59121a;
 }
 
 .cart-icon svg,
@@ -117,11 +117,11 @@
 }
 
 .main-tab.active {
-  color: #143b2a;
+  color: #59121a;
 }
 
 .main-tab.active::after {
-  background: #143b2a;
+  background: #59121a;
 }
 
 .sub-tabs {
@@ -147,8 +147,8 @@
 }
 
 .sub-tab.active {
-  border-color: #143b2a;
-  background: #143b2a;
+  border-color: #59121a;
+  background: #59121a;
   color: #fff;
 }
 
@@ -230,10 +230,10 @@
   justify-self: center;
   min-height: 40px;
   padding: 0 18px;
-  border: 1px solid #143b2a;
+  border: 1px solid #59121a;
   border-radius: 20px;
   background: #fffdfa;
-  color: #143b2a;
+  color: #59121a;
   font-size: 13px;
   font-weight: 700;
 }
@@ -249,7 +249,7 @@
   border: 1px solid #ebebe4;
   border-radius: 16px;
   background: #fff;
-  box-shadow: 0 3px 10px #2138210a;
+  box-shadow: 0 3px 10px #59121a0a;
 }
 
 .food-card img {
@@ -286,7 +286,7 @@
 }
 
 .food-details strong {
-  color: #143b2a;
+  color: #59121a;
   font-size: 14px;
 }
 
@@ -307,15 +307,15 @@
   border: 1px solid #dce3da;
   border-radius: 50%;
   background: #fff;
-  color: #143b2a;
+  color: #59121a;
   font-size: 20px;
   font-weight: 500;
   line-height: 1;
 }
 
 .stepper button:last-child {
-  border-color: #143b2a;
-  background: #143b2a;
+  border-color: #59121a;
+  background: #59121a;
   color: #fff;
 }
 
@@ -347,8 +347,8 @@
   padding: 0 18px;
   border: 0;
   border-radius: 15px;
-  background: #143b2a;
-  box-shadow: 0 8px 22px #143b2a45;
+  background: #59121a;
+  box-shadow: 0 8px 22px #59121a45;
   color: #fff;
   font-size: 14px;
   font-weight: 700;
@@ -441,7 +441,7 @@
 }
 
 .order-item > span {
-  color: #143b2a;
+  color: #59121a;
   font-size: 13px;
   font-weight: 800;
   white-space: nowrap;
@@ -462,7 +462,7 @@
 }
 
 .total strong {
-  color: #143b2a;
+  color: #59121a;
   font-size: 18px;
 }
 
@@ -472,7 +472,7 @@
   min-height: 52px;
   border: 0;
   border-radius: 13px;
-  background: #143b2a;
+  background: #59121a;
   color: #fff;
   font-size: 15px;
   font-weight: 800;
@@ -496,7 +496,7 @@
   place-items: center;
   border-radius: 50%;
   background: #e6f0e9;
-  color: #143b2a;
+  color: #59121a;
   font-size: 32px;
   font-weight: 800;
 }

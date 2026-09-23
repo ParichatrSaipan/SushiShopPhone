@@ -8,6 +8,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Inter Custom';
+  src: url('./font/Inter_18pt-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 :root { font-family: 'Inter Custom', 'Noto Sans Thai', Arial, sans-serif; color: #292d2a; background: #edf0eb; font-synthesis: none; text-rendering: optimizeLegibility; }
 * { box-sizing: border-box; }
 body { min-width: 320px; min-height: 100vh; margin: 0; }
