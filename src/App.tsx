@@ -9,6 +9,8 @@ import {
   type MainCategoryId,
   type MenuItem,
 } from './menuData'
+import { useResearchLog, type ResearchRecord } from './useResearchLog'
+import ResearchPanel from './ResearchPanel'
 
 const baht = (amount: number) => `฿${amount.toLocaleString('th-TH')}`
 
@@ -34,12 +36,24 @@ function CartIcon() {
   )
 }
 
+function GearIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
+      <path d="M19.4 13a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V19a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H4a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 5.6 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H10a1.65 1.65 0 0 0 1-1.51V2a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V8a1.65 1.65 0 0 0 1.51 1H20a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" />
+    </svg>
+  )
+}
+
 function App() {
   const [activeMain, setActiveMain] = useState<MainCategoryId>('nigiri')
   const [activeGroup, setActiveGroup] = useState(nigiriGroups[0].id)
   const [quantities, setQuantities] = useState<Record<string, number>>({})
   const [cartOpen, setCartOpen] = useState(false)
   const [confirmed, setConfirmed] = useState(false)
+  const [researchOpen, setResearchOpen] = useState(false)
+  const [lastResearchRecord, setLastResearchRecord] = useState<ResearchRecord | null>(null)
+  const research = useResearchLog()
 
   const currentGroup =
     nigiriGroups.find((group) => group.id === activeGroup) ?? nigiriGroups[0]
@@ -103,7 +117,14 @@ function App() {
 
   const openCart = () => {
     setConfirmed(false)
+    setLastResearchRecord(null)
     setCartOpen(true)
+  }
+
+  const handleConfirmOrder = () => {
+    const record = research.recordResult(quantities)
+    setLastResearchRecord(record)
+    setConfirmed(true)
   }
 
   const renderFoodCard = (item: MenuItem) => {
@@ -147,14 +168,23 @@ function App() {
             <p className="brand">SUSHI MIZU</p>
             <p className="subtitle">Japanese Sushi Restaurant</p>
           </div>
-          <button
-            className="cart-icon"
-            onClick={openCart}
-            aria-label={`ตะกร้า ${itemCount} รายการ`}
-          >
-            <CartIcon />
-            {itemCount > 0 && <span>{itemCount}</span>}
-          </button>
+          <div className="header-actions">
+            <button
+              className="research-fab"
+              onClick={() => setResearchOpen(true)}
+              aria-label="แผงเก็บข้อมูลวิจัย"
+            >
+              <GearIcon />
+            </button>
+            <button
+              className="cart-icon"
+              onClick={openCart}
+              aria-label={`ตะกร้า ${itemCount} รายการ`}
+            >
+              <CartIcon />
+              {itemCount > 0 && <span>{itemCount}</span>}
+            </button>
+          </div>
         </header>
 
         <nav className="main-tabs" aria-label="หมวดเมนูหลัก">
@@ -348,6 +378,12 @@ function App() {
                     <br />
                     พนักงานจะนำอาหารมาเสิร์ฟที่โต๊ะของคุณ
                   </p>
+                  {lastResearchRecord && (
+                    <p className="research-confirm-note">
+                      บันทึกผลลัพธ์แล้ว — Error: {lastResearchRecord.totalError}, Decision Time:{' '}
+                      {lastResearchRecord.timeSec}s
+                    </p>
+                  )}
                   <button
                     className="secondary-button"
                     onClick={() => setCartOpen(false)}
@@ -395,7 +431,7 @@ function App() {
                   <button
                     className="confirm-button"
                     disabled={!selectedItems.length}
-                    onClick={() => setConfirmed(true)}
+                    onClick={handleConfirmOrder}
                   >
                     Confirm Order
                   </button>
@@ -405,6 +441,8 @@ function App() {
           </div>
         )}
       </main>
+
+      <ResearchPanel api={research} open={researchOpen} onClose={() => setResearchOpen(false)} />
     </div>
   )
 }
