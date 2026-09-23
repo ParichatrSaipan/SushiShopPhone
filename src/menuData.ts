@@ -149,7 +149,7 @@ export const sideDishItems = makeItems('sides', [
   ['มันเชื่อมญี่ปุ่น', 'Candied Sweet Potato', 40, candiedSweetPotato],
   ['เค้กช็อกโกแลต', 'Chocolate Cake', 60, chocolateCake],
   ['โรลเค้ก', 'Roll cake', 60, rollCake],
-])
+]).sort((a, b) => a.price - b.price)
 
 export const dessertDrinkItems = makeItems('desserts', [
   ['กาแฟลาเต้ร้อน (ไม่ใส่น้ำตาล)', 'Hot Café Latte (No Sugar)', 40, hotCafeLatteNoSugar],

@@ -158,8 +158,8 @@ function App() {
       <main className="phone" aria-label="SUSHI MIZU ordering menu">
         <header className="header">
           <div>
-            <p className="brand">SUSHI MIZU</p>
-            <p className="subtitle">Japanese Sushi Restaurant</p>
+            <p className="brand">SUSHI MAI</p>
+            <p className="subtitle">Sushi Restaurant</p>
           </div>
           <div className="header-actions">
             <button
