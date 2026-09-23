@@ -98,6 +98,7 @@ export default function ResearchPanel({ api, open, onClose }: ResearchPanelProps
                 <th>Extra</th>
                 <th>WrongQty</th>
                 <th>Error</th>
+                <th>Click&nbsp;Errors</th>
                 <th>Success</th>
               </tr>
             </thead>
@@ -113,6 +114,7 @@ export default function ResearchPanel({ api, open, onClose }: ResearchPanelProps
                   <td>{r.extra}</td>
                   <td>{r.wrongQty}</td>
                   <td>{r.totalError}</td>
+                  <td>{r.clickErrors ?? 0}</td>
                   <td>{r.success}</td>
                 </tr>
               ))}

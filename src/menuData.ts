@@ -120,7 +120,7 @@ export const mainCategories: readonly {
   id: MainCategoryId
   label: string
 }[] = [
-  { id: 'nigiri', label: 'นิกิริ' },
+  { id: 'nigiri', label: 'ซูชิ' },
   { id: 'sides', label: 'ของหวาน' },
   { id: 'desserts', label: 'เครื่องดื่ม' },
 ] as const

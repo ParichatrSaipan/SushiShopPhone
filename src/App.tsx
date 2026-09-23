@@ -94,6 +94,7 @@ function App() {
   )
 
   const updateQuantity = (id: string, change: number) => {
+    if (change > 0) research.recordAddClick(id, (quantities[id] ?? 0) + change)
     setQuantities((current) => ({
       ...current,
       [id]: Math.max(0, (current[id] ?? 0) + change),
@@ -159,7 +160,7 @@ function App() {
         <header className="header">
           <div>
             <p className="brand">SUSHI MAI</p>
-            <p className="subtitle">Sushi Restaurant</p>
+            <p className="subtitle">日本料理 · Japanese Sushi Restaurant</p>
           </div>
           <div className="header-actions">
             <button
@@ -209,7 +210,6 @@ function App() {
             <section className="menu-section" aria-live="polite">
               <div className="section-heading">
                 <div>
-                  <span className="category-kicker">นิกิริ</span>
                   <h1>{currentGroup.label}</h1>
                   <p>{currentGroup.english}</p>
                 </div>
@@ -300,7 +300,6 @@ function App() {
           <section className="menu-section top-section" aria-live="polite">
             <div className="section-heading">
               <div>
-                <span className="category-kicker">DESSERT</span>
                 <h1>ของหวาน</h1>
                 <p>Dessert</p>
               </div>
@@ -317,7 +316,6 @@ function App() {
           <section className="menu-section top-section" aria-live="polite">
             <div className="section-heading">
               <div>
-                <span className="category-kicker">DRINKS</span>
                 <h1>เครื่องดื่ม</h1>
                 <p>Drinks</p>
               </div>
@@ -373,7 +371,8 @@ function App() {
                   </p>
                   {lastResearchRecord && (
                     <p className="research-confirm-note">
-                      บันทึกผลลัพธ์แล้ว — Error: {lastResearchRecord.totalError}, Decision Time:{' '}
+                      บันทึกผลลัพธ์แล้ว — Error: {lastResearchRecord.totalError}, Click Errors:{' '}
+                      {lastResearchRecord.clickErrors}, Decision Time:{' '}
                       {lastResearchRecord.timeSec}s
                     </p>
                   )}
