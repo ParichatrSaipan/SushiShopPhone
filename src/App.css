@@ -544,13 +544,10 @@ button:focus-visible {
   color: #9a9d96;
 }
 
-.research-fab svg {
+.research-fab img {
   width: 17px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  height: 17px;
+  display: block;
 }
 
 .research-fab:hover {
