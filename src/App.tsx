@@ -307,9 +307,9 @@ function App() {
           <section className="menu-section top-section" aria-live="polite">
             <div className="section-heading">
               <div>
-                <span className="category-kicker">SIDE DISHES</span>
-                <h1>เมนูทานเล่น</h1>
-                <p>Side Dishes</p>
+                <span className="category-kicker">DESSERT</span>
+                <h1>ของหวาน</h1>
+                <p>Dessert</p>
               </div>
               <span className="item-total">
                 {sideDishItems.length} รายการ
@@ -324,9 +324,9 @@ function App() {
           <section className="menu-section top-section" aria-live="polite">
             <div className="section-heading">
               <div>
-                <span className="category-kicker">DESSERTS &amp; DRINKS</span>
-                <h1>ของหวาน เครื่องดื่ม</h1>
-                <p>Desserts &amp; Drinks</p>
+                <span className="category-kicker">DRINKS</span>
+                <h1>เครื่องดื่ม</h1>
+                <p>Drinks</p>
               </div>
               <span className="item-total">
                 {dessertDrinkItems.length} รายการ

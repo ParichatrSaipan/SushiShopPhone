@@ -24,7 +24,7 @@ export const TASK_SETS: readonly TaskSetDef[] = [
     set: 'A',
     lines: [
       { itemId: 'tuna-salmon-3', qty: 2 }, // แซลมอน
-      { itemId: 'desserts-3', qty: 1 }, // ชาเขียวเย็น
+      { itemId: 'desserts-3', qty: 1 }, // กาแฟลาเต้เย็น (ไม่ใส่น้ำตาล)
     ],
   },
   {
@@ -32,7 +32,7 @@ export const TASK_SETS: readonly TaskSetDef[] = [
     set: 'B',
     lines: [
       { itemId: 'tuna-salmon-1', qty: 2 }, // มะกุโระ
-      { itemId: 'desserts-4', qty: 1 }, // น้ำอัดลม
+      { itemId: 'desserts-2', qty: 1 }, // กาแฟดำร้อน (ไม่ใส่น้ำตาล)
     ],
   },
   {
@@ -40,7 +40,7 @@ export const TASK_SETS: readonly TaskSetDef[] = [
     set: 'C',
     lines: [
       { itemId: 'shrimp-crab-shellfish-1', qty: 2 }, // กุ้งเอบิ
-      { itemId: 'desserts-3', qty: 1 }, // ชาเขียวเย็น
+      { itemId: 'desserts-3', qty: 1 }, // กาแฟลาเต้เย็น (ไม่ใส่น้ำตาล)
     ],
   },
 
@@ -52,8 +52,8 @@ export const TASK_SETS: readonly TaskSetDef[] = [
       { itemId: 'tuna-salmon-6', qty: 2 }, // ท้องแซลมอนเบิร์นไฟ
       { itemId: 'squid-octopus-eel-6', qty: 2 }, // อุนางิย่าง
       { itemId: 'tuna-salmon-22', qty: 1 }, // แซลมอนอะโวคาโดโรล
-      { itemId: 'desserts-1', qty: 1 }, // ไอศกรีมมัทฉะ
-      { itemId: 'desserts-3', qty: 1 }, // ชาเขียวเย็น
+      { itemId: 'desserts-1', qty: 1 }, // กาแฟลาเต้ร้อน (ไม่ใส่น้ำตาล)
+      { itemId: 'desserts-3', qty: 1 }, // กาแฟลาเต้เย็น (ไม่ใส่น้ำตาล)
     ],
   },
   {
@@ -63,8 +63,8 @@ export const TASK_SETS: readonly TaskSetDef[] = [
       { itemId: 'tuna-salmon-4', qty: 2 }, // ท้องแซลมอน
       { itemId: 'shrimp-crab-shellfish-22', qty: 2 }, // หอยเชลล์จัมโบ้
       { itemId: 'tuna-salmon-11', qty: 1 }, // ทูน่ามากิ
-      { itemId: 'desserts-2', qty: 1 }, // ไดฟูกุถั่วแดง
-      { itemId: 'desserts-4', qty: 1 }, // น้ำอัดลม
+      { itemId: 'desserts-2', qty: 1 }, // กาแฟดำร้อน (ไม่ใส่น้ำตาล)
+      { itemId: 'desserts-3', qty: 1 }, // กาแฟลาเต้เย็น (ไม่ใส่น้ำตาล)
     ],
   },
   {
@@ -74,8 +74,8 @@ export const TASK_SETS: readonly TaskSetDef[] = [
       { itemId: 'tuna-salmon-3', qty: 2 }, // แซลมอน
       { itemId: 'squid-octopus-eel-6', qty: 2 }, // อุนางิย่าง
       { itemId: 'tuna-salmon-12', qty: 1 }, // ทูน่าสับมากิ
-      { itemId: 'sides-2', qty: 1 }, // ไก่คาราอาเกะ
-      { itemId: 'desserts-3', qty: 1 }, // ชาเขียวเย็น
+      { itemId: 'sides-2', qty: 1 }, // มันเชื่อมญี่ปุ่น
+      { itemId: 'desserts-3', qty: 1 }, // กาแฟลาเต้เย็น (ไม่ใส่น้ำตาล)
     ],
   },
 ]

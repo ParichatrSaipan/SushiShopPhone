@@ -81,10 +81,13 @@ import premiumRoastBeef from './assets/Premium_Roast_Beef.svg'
 import salmonRoeGunkan from './assets/Salmon_Roe_Gunkan.svg'
 import salmonRoeWrap from './assets/Salmon_Roe_Wrap.svg'
 import spicyKaisen from './assets/Spicy_Kaisen.svg'
-import daifukuMochi from './assets/Daifuku_Mochi.svg'
-import icedGreenTea from './assets/Iced_Green_Tea.svg'
-import matchaIceCream from './assets/Matcha_Ice_Cream.svg'
-import softDrink from './assets/Soft_Drink.svg'
+import milleCrepe from './assets/Mille_Crepe.svg'
+import candiedSweetPotato from './assets/Candied_Sweet_Potato.svg'
+import chocolateCake from './assets/Chocolate_Cake.svg'
+import rollCake from './assets/Roll_cake.svg'
+import hotCafeLatteNoSugar from './assets/Hot_Café_Latte_(No Sugar).svg'
+import hotBlackCoffeeNoSugar from './assets/Hot_Black_Coffee_(No Sugar).svg'
+import icedCafeLatteNoSugar from './assets/Iced_Café_Latte_(No Sugar).svg'
 
 export type MenuItem = {
   id: string
@@ -103,18 +106,24 @@ export type MenuGroup = {
   items: MenuItem[]
 }
 
-export const mainCategories = [
-  { id: 'top', label: 'TOP' },
-  { id: 'seasonal', label: 'เมนูแนะนำตามช่วงเวลา' },
-  { id: 'today', label: 'เมนูแนะนำวันนี้' },
-  { id: 'nigiri', label: 'นิกิริ' },
-  { id: 'roll', label: 'กุ้ง โรล' },
-  { id: 'noodles', label: 'เมนูเส้น ซุป' },
-  { id: 'sides', label: 'เมนูทานเล่น' },
-  { id: 'desserts', label: 'ของหวาน เครื่องดื่ม' },
-] as const
+export type MainCategoryId =
+  | 'top'
+  | 'seasonal'
+  | 'today'
+  | 'nigiri'
+  | 'roll'
+  | 'noodles'
+  | 'sides'
+  | 'desserts'
 
-export type MainCategoryId = (typeof mainCategories)[number]['id']
+export const mainCategories: readonly {
+  id: MainCategoryId
+  label: string
+}[] = [
+  { id: 'nigiri', label: 'นิกิริ' },
+  { id: 'sides', label: 'ของหวาน' },
+  { id: 'desserts', label: 'เครื่องดื่ม' },
+] as const
 
 const makeItems = (
   groupId: string,
@@ -136,17 +145,16 @@ export const noodleSoupItems = makeItems('noodles', [
 ])
 
 export const sideDishItems = makeItems('sides', [
-  ['เกี๊ยวซ่า', 'Gyoza', 60, inari],
-  ['ไก่คาราอาเกะ', 'Chicken Karaage', 80, chickenMeatBall],
-  ['ทาโกะยากิ', 'Takoyaki', 60, takoWasabi],
-  ['ยำแซลมอน', 'Spicy Salmon Salad', 80, salmonShioYukke],
+  ['ฮอกไกโดมิลล์เครป', 'Mille Crepe', 80, milleCrepe],
+  ['มันเชื่อมญี่ปุ่น', 'Candied Sweet Potato', 40, candiedSweetPotato],
+  ['เค้กช็อกโกแลต', 'Chocolate Cake', 60, chocolateCake],
+  ['โรลเค้ก', 'Roll cake', 60, rollCake],
 ])
 
 export const dessertDrinkItems = makeItems('desserts', [
-  ['ไอศกรีมมัทฉะ', 'Matcha Ice Cream', 60, matchaIceCream],
-  ['ไดฟูกุถั่วแดง', 'Red Bean Daifuku', 60, daifukuMochi],
-  ['ชาเขียวเย็น', 'Iced Green Tea', 40, icedGreenTea],
-  ['น้ำอัดลม', 'Soft Drink', 40, softDrink],
+  ['กาแฟลาเต้ร้อน (ไม่ใส่น้ำตาล)', 'Hot Café Latte (No Sugar)', 40, hotCafeLatteNoSugar],
+  ['กาแฟดำร้อน (ไม่ใส่น้ำตาล)', 'Hot Black Coffee (No Sugar)', 40, hotBlackCoffeeNoSugar],
+  ['กาแฟลาเต้เย็น (ไม่ใส่น้ำตาล)', 'Iced Café Latte (No Sugar)', 40, icedCafeLatteNoSugar],
 ])
 
 export const nigiriGroups: MenuGroup[] = [
