@@ -116,6 +116,7 @@ function App() {
   const handleConfirmOrder = () => {
     const record = research.recordResult(quantities)
     setLastResearchRecord(record)
+    setQuantities({})
     setConfirmed(true)
   }
 
